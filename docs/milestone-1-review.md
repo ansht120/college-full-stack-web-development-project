@@ -14,6 +14,7 @@
 ## Architecture Decisions
 
 - Added `backend-java` instead of replacing the current Node/React code so the existing work is preserved while the enterprise Java backend grows cleanly.
+- Renamed the portfolio direction to Enterprise Digital Banking Operations Platform; the current student CRUD slice remains a temporary foundation and will be migrated into banking customer/account modules in the next milestones.
 - Used Spring Boot layered architecture because it is the industry-standard Java stack for enterprise REST APIs.
 - Used Flyway instead of Hibernate schema generation for repeatable production database changes.
 - Used DTO records at API boundaries to keep entities from leaking into controllers.

@@ -1,8 +1,8 @@
-# College Student Result Management System
+# Enterprise Digital Banking Operations Platform
 
-Production-oriented full-stack college project for managing students, departments, marks, semester results, rank lists, and role-based academic workflows.
+Production-oriented full-stack banking operations project for managing secure staff access, customer operations, account workflows, transaction monitoring, approvals, audit trails, and role-based back-office banking workflows.
 
-The repository currently contains the original Node/React implementation and a new enterprise Java backend foundation under `backend-java`.
+The repository is being evolved into an enterprise-grade banking platform suitable for Java/Spring Boot portfolio interviews. The current milestone establishes the backend foundation under `backend-java`; upcoming milestones will replace the earlier academic domain with banking modules.
 
 ## Tech Stack
 
@@ -25,8 +25,8 @@ The repository currently contains the original Node/React implementation and a n
 - DTO-based request and response models
 - Global exception handling
 - Validation with meaningful HTTP responses
-- Pagination, sorting, filtering, and search for students
-- Soft delete for student records
+- Pagination, sorting, filtering, and search foundation
+- Soft delete support for regulated operational records
 - Transactional service layer
 - Repository pattern
 - Flyway migrations with constraints, foreign keys, and indexes
@@ -78,8 +78,8 @@ mvn spring-boot:run
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | `admin@college.com` | `Password@123` |
-| Faculty | `faculty@college.com` | `Password@123` |
+| Operations Admin | `admin@college.com` | `Password@123` |
+| Operations Staff | `faculty@college.com` | `Password@123` |
 
 ## API Examples
 
@@ -95,7 +95,7 @@ Content-Type: application/json
 }
 ```
 
-Search students:
+Search current milestone records:
 
 ```http
 GET /api/v1/students?q=rahul&semester=5&page=0&size=20&sort=fullName,asc
@@ -112,12 +112,14 @@ Authorization: Bearer <token>
 
 ## Roadmap
 
-- Faculty module
-- Subject module
-- Marks entry module
-- Result generation module
-- Student marksheet module
-- React frontend integration with Java APIs
+- Banking customer profile module
+- Account management module
+- Transaction ledger module
+- Internal transfer workflow
+- Maker-checker approval workflow
+- KYC status and document review module
+- Audit logging and suspicious activity flags
+- React frontend integration with Java banking APIs
 - Expanded unit and integration test suite
 - Deployment guide and screenshots
 
