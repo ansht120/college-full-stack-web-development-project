@@ -1,10 +1,10 @@
-# Enterprise Digital Banking Operations Platform Architecture
+# Architecture
 
 ## System Context
 
 ```mermaid
 flowchart LR
-    User["Operations Admin / Staff / Auditor"] --> React["React Web App"]
+    User["Admin / Faculty / Student"] --> React["React Web App"]
     React --> Api["Spring Boot API (/api/v1)"]
     Api --> Db["PostgreSQL"]
     Api --> Swagger["OpenAPI / Swagger UI"]
