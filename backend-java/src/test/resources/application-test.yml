@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:college_test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+server:
+  servlet:
+    context-path: /
+
+security:
+  jwt:
+    secret: test-secret-with-more-than-sixty-four-characters-for-hmac-signing-12345
+    expiration-minutes: 30
