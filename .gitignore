@@ -4,8 +4,5 @@ node_modules/
 dist/
 build/
 .DS_Store
-target/
 .idea/
 .vscode/
-*.iml
-postgres_data/

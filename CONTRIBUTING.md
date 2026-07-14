@@ -9,9 +9,14 @@ Use Conventional Commits:
 - `refactor:` code restructuring without behavior changes
 - `chore:` tooling and maintenance
 
-Before opening a pull request, run the backend test suite:
+Before opening a pull request, make sure the backend starts and the frontend builds:
 
 ```bash
-cd backend-java
-mvn test
+cd backend
+npm install
+npm run dev
+
+cd ../frontend
+npm install
+npm run build
 ```

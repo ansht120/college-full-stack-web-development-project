@@ -5,21 +5,18 @@
 ```mermaid
 flowchart LR
     User["Admin / Faculty / Student"] --> React["React Web App"]
-    React --> Api["Spring Boot API (/api/v1)"]
-    Api --> Db["PostgreSQL"]
-    Api --> Swagger["OpenAPI / Swagger UI"]
+    React --> Api["Express.js API (/api)"]
+    Api --> Db["MySQL 8.0"]
 ```
 
 ## Backend Layers
 
 ```mermaid
 flowchart TD
-    Controller["REST Controllers"] --> Service["Application Services"]
-    Service --> Repository["Spring Data Repositories"]
-    Repository --> Entity["JPA Entities"]
-    Entity --> Database["PostgreSQL + Flyway"]
-    Security["JWT Security Filter"] --> Controller
-    Exceptions["Global Exception Handler"] --> Controller
+    Routes["Express Routes"] --> Middleware["JWT Auth Middleware"]
+    Middleware --> Controller["Controllers"]
+    Controller --> Model["Sequelize Models"]
+    Model --> Database["MySQL 8.0"]
 ```
 
 ## ER Diagram
@@ -27,31 +24,46 @@ flowchart TD
 ```mermaid
 erDiagram
     DEPARTMENTS ||--o{ STUDENTS : has
+    DEPARTMENTS ||--o{ FACULTY : has
+    DEPARTMENTS ||--o{ SUBJECTS : offers
+    FACULTY ||--o{ SUBJECTS : teaches
+    STUDENTS ||--o{ MARKS : receives
+    SUBJECTS ||--o{ MARKS : graded_in
+    STUDENTS ||--o{ RESULTS : earns
+    USERS ||--o| STUDENTS : account
+    USERS ||--o| FACULTY : account
     USERS {
-        bigint id PK
-        uuid public_id UK
-        varchar full_name
+        int id PK
+        varchar name
         varchar email UK
         varchar password_hash
-        varchar role
-        boolean deleted
-    }
-    DEPARTMENTS {
-        bigint id PK
-        uuid public_id UK
-        varchar code UK
-        varchar name UK
-        boolean deleted
+        enum role
     }
     STUDENTS {
-        bigint id PK
-        uuid public_id UK
+        int id PK
         varchar roll_number UK
-        varchar full_name
+        varchar name
         varchar email UK
         int semester
-        bigint department_id FK
-        boolean deleted
+        int department_id FK
+        int user_id FK
+    }
+    MARKS {
+        int id PK
+        int student_id FK
+        int subject_id FK
+        int semester
+        decimal marks_obtained
+        varchar grade
+        boolean locked
+    }
+    RESULTS {
+        int id PK
+        int student_id FK
+        int semester
+        decimal sgpa
+        decimal cgpa
+        enum status
     }
 ```
 
@@ -60,14 +72,12 @@ erDiagram
 ```mermaid
 sequenceDiagram
     participant Client
+    participant AuthRoute as /api/auth/login
     participant AuthController
-    participant AuthService
-    participant UserRepository
-    participant JwtService
-    Client->>AuthController: POST /auth/login
-    AuthController->>AuthService: validate credentials
-    AuthService->>UserRepository: find active user by email
-    AuthService->>AuthService: BCrypt password match
-    AuthService->>JwtService: generate token
-    JwtService-->>Client: JWT response
+    participant UserModel as User (Sequelize)
+    Client->>AuthRoute: POST email + password
+    AuthRoute->>AuthController: login()
+    AuthController->>UserModel: find user by email
+    AuthController->>AuthController: bcrypt password compare
+    AuthController-->>Client: JWT token + user profile
 ```
